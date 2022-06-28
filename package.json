@@ -9,8 +9,13 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bufferutil": "^4.0.6",
     "dblapi.js": "^2.4.1",
     "discord.js": "^12.5.1",
-    "dotenv": "^16.0.1"
+    "dotenv": "^16.0.1",
+    "erlpack": "github:discord/erlpack",
+    "prettier": "^2.7.1",
+    "utf-8-validate": "^5.0.9",
+    "zlib-sync": "^0.1.7"
   }
 }

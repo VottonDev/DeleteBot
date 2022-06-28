@@ -4,7 +4,14 @@ Originally made by An0 <br>
 Modified by Votton
 
 ## To run
-```node index.js```
+
+`node index.js`
 
 ## Setup
-Add Discord token (TOKEN) and (DBLTOKEN) if use top.gg to .env
+
+Create a .env file with following variables:
+
+```
+TOKEN="DISCORDTOKENHERE"
+DBLTOKEN="TOPGGTOKENHERE"
+```
