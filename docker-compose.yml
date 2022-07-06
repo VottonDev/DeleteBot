@@ -5,6 +5,6 @@ services:
     build:
       context: .
       dockerfile: ./docker/Dockerfile.deletebot
-      environment:
-        - TOKEN=${TOKEN}
-        - DBLTOKEN=${DBLTOKEN}
+    environment:
+      - TOKEN=${TOKEN}
+      - DBLTOKEN=${DBLTOKEN}
