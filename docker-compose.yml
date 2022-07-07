@@ -1,0 +1,11 @@
+version: "3.8"
+services:
+  deletebot:
+    container_name: deletebot
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile.deletebot
+    environment:
+      - TOKEN=${TOKEN}
+      - DBLTOKEN=${DBLTOKEN}
+    network_mode: "bridge"
