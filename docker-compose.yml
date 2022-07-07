@@ -8,6 +8,4 @@ services:
     environment:
       - TOKEN=${TOKEN}
       - DBLTOKEN=${DBLTOKEN}
-    dns:
-      - 1.1.1.1
-      - 1.0.0.1
+    network_mode: "bridge"
