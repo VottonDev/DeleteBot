@@ -1,5 +1,4 @@
 require('dotenv').config();
-const crypto = require('crypto');
 const Discord = require('discord.js');
 const IntentFlag = Discord.Intents.FLAGS;
 const DiscordClient = new Discord.Client({
@@ -74,7 +73,7 @@ async function Wipe(channelConfig, reWipe) {
     } else console.error(err);
   }
 
-  channelConfig.t = setTimeout(Wipe, interval + crypto.randomInt(2) * RecurringSpread, channelConfig);
+  channelConfig.t = setTimeout(Wipe, interval + math.random * RecurringSpread, channelConfig);
 }
 
 async function DeleteOldAnnounce(channel) {
@@ -90,7 +89,7 @@ function AddChannel(matches, channel, announce) {
   param = param === '' ? 7 : Math.min(12, Math.max(param, 1));
   let channelConfig = { ttl: param * DayMs, int: DayMs, channel };
   ChannelConfigs.set(channel.id, channelConfig);
-  channelConfig.t = setTimeout(Wipe, crypto.randomInt(2) * InitialSpread, channelConfig, true);
+  channelConfig.t = setTimeout(Wipe, math.random * InitialSpread, channelConfig, true);
   Log(`Adding ${ChannelName(channel)} with a ${param} day wipe`);
   if (announce) {
     DeleteOldAnnounce(channel).then(() =>
