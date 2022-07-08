@@ -1,4 +1,4 @@
-FROM node:lts-gallium
+FROM node:current-buster-slim
 
 COPY . .
 
