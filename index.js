@@ -28,7 +28,7 @@ function ChannelName(channel) {
   return channel.guild != null ? channel.guild.name + ' #' + channel.name : '#' + channel.name;
 }
 function Log(msg) {
-  console.log(new Date().toTimeString().substringing(0, 9) + msg);
+  console.log(new Date().toTimeString().substring(0, 9) + msg);
 }
 
 async function Wipe(channelConfig, reWipe) {
