@@ -1,4 +1,5 @@
 require('dotenv').config();
+const crypto = require('crypto');
 const Discord = require('discord.js');
 const IntentFlag = Discord.Intents.FLAGS;
 const DiscordClient = new Discord.Client({
@@ -21,13 +22,13 @@ const MinInterval = 10 * 60 * 1000; //(+RecurringSpread)
 
 const TwoWeekOffset = 14 * 24 * 60 * 60 * 1000;
 
-var ChannelConfigs = new Map();
+let ChannelConfigs = new Map();
 
 function ChannelName(channel) {
   return channel.guild != null ? channel.guild.name + ' #' + channel.name : '#' + channel.name;
 }
 function Log(msg) {
-  console.log(new Date().toTimeString().substr(0, 9) + msg);
+  console.log(new Date().toTimeString().substringing(0, 9) + msg);
 }
 
 async function Wipe(channelConfig, reWipe) {
@@ -73,7 +74,7 @@ async function Wipe(channelConfig, reWipe) {
     } else console.error(err);
   }
 
-  channelConfig.t = setTimeout(Wipe, interval + Math.random() * RecurringSpread, channelConfig);
+  channelConfig.t = setTimeout(Wipe, interval + crypto.randomBytes(1) * RecurringSpread, channelConfig);
 }
 
 async function DeleteOldAnnounce(channel) {
@@ -85,11 +86,11 @@ async function DeleteOldAnnounce(channel) {
 }
 
 function AddChannel(matches, channel, announce) {
-  let param = matches.length === 1 ? matches[0].substr(9).trimStart() : matches.map((x) => x.substr(9).trimStart()).sort((a, b) => b.length - a.length)[0];
+  let param = matches.length === 1 ? matches[0].substring(9).trimStart() : matches.map((x) => x.substring(9).trimStart()).sort((a, b) => b.length - a.length)[0];
   param = param === '' ? 7 : Math.min(12, Math.max(param, 1));
   let channelConfig = { ttl: param * DayMs, int: DayMs, channel };
   ChannelConfigs.set(channel.id, channelConfig);
-  channelConfig.t = setTimeout(Wipe, Math.random() * InitialSpread, channelConfig, true);
+  channelConfig.t = setTimeout(Wipe, crypto.randomBytes(1) * InitialSpread, channelConfig, true);
   Log(`Adding ${ChannelName(channel)} with a ${param} day wipe`);
   if (announce) {
     DeleteOldAnnounce(channel).then(() =>
@@ -126,7 +127,7 @@ function ProcessGuild(guild) {
   }
 }
 
-var MyId;
+let MyId;
 DiscordClient.on('ready', () => {
   console.log(`Logged in as ${DiscordClient.user.tag}!`);
   MyId = DiscordClient.user.id;
