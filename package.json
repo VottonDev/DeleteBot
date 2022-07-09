@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "prettify": "prettier --write ."
   },
   "author": "",
   "license": "ISC",
@@ -14,8 +15,10 @@
     "discord.js": "^12.5.1",
     "dotenv": "^16.0.1",
     "erlpack": "github:discord/erlpack",
-    "prettier": "^2.7.1",
     "utf-8-validate": "^5.0.9",
     "zlib-sync": "^0.1.7"
+  },
+  "devDependencies": {
+    "prettier": "^2.7.1"
   }
 }

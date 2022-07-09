@@ -168,5 +168,14 @@ DiscordClient.on('channelUpdate', async (oldChannel, newChannel) => {
     await DeleteOldAnnounce(newChannel);
   }
 });
+DiscordClient.on('rateLimit', (rateLimitInfo) => {
+  if (rateLimitInfo.global) {
+    let time = rateLimitInfo.reset * 1000;
+    console.log(`Ratelimited, waiting until ${new Date(time).toLocaleString()}`);
+    setTimeout(() => {
+      console.log('Ratelimit cleared, resuming');
+    }, time - Date.now());
+  }
+});
 new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
 DiscordClient.login(process.env.TOKEN).then(() => console.log(`Logged in as ${DiscordClient.user.tag}!`));
