@@ -1,10 +1,12 @@
 require('dotenv').config();
-const { Client, Intents } = require('discord.js');
-const MyIntents = new Intents();
-MyIntents.add('GUILDS');
-const DiscordClient = new Client({
+const Discord = require('discord.js');
+const IntentFlag = Discord.Intents.FLAGS;
+const DiscordClient = new Discord.Client({
   ws: {
-    intents: MyIntents
+    intents: IntentFlag.GUILDS, //|
+    //IntentFlag.GUILD_MEMBERS |
+    //IntentFlag.GUILD_MESSAGES |
+    //IntentFlag.GUILD_MESSAGE_REACTIONS
   },
   messageCacheMaxSize: 0,
   disableMentions: 'everyone',
@@ -166,5 +168,6 @@ DiscordClient.on('channelUpdate', async (oldChannel, newChannel) => {
     await DeleteOldAnnounce(newChannel);
   }
 });
-new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN).then(() => console.log(`Logged in as ${DiscordClient.user.tag}!`));
+
+const dbl = new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
+DiscordClient.login(process.env.TOKEN).then(r => console.log(`Logged in as ${DiscordClient.user.tag}!`));
