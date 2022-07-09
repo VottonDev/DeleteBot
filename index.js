@@ -168,6 +168,5 @@ DiscordClient.on('channelUpdate', async (oldChannel, newChannel) => {
     await DeleteOldAnnounce(newChannel);
   }
 });
-
-const dbl = new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN).then(r => console.log(`Logged in as ${DiscordClient.user.tag}!`));
+new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
+DiscordClient.login(process.env.TOKEN).then(() => console.log(`Logged in as ${DiscordClient.user.tag}!`));
