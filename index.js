@@ -165,9 +165,9 @@ DiscordClient.on('channelUpdate', async (oldChannel, newChannel) => {
 
   if (announceDelete) {
     newChannel.send('The messages will not be automatically deleted').catch(console.error);
-    DeleteOldAnnounce(newChannel);
+    await DeleteOldAnnounce(newChannel);
   }
 });
 
 const dbl = new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN);
+DiscordClient.login(process.env.TOKEN).then(r => console.log(`Logged in as ${DiscordClient.user.tag}!`));
