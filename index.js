@@ -21,7 +21,7 @@ const MinInterval = 10 * 60 * 1000; //(+RecurringSpread)
 
 const TwoWeekOffset = 14 * 24 * 60 * 60 * 1000;
 
-let ChannelConfigs = new Map();
+var ChannelConfigs = new Map();
 
 function ChannelName(channel) {
   return channel.guild != null ? channel.guild.name + ' #' + channel.name : '#' + channel.name;
@@ -126,7 +126,7 @@ function ProcessGuild(guild) {
   }
 }
 
-let MyId;
+var MyId;
 DiscordClient.on('ready', () => {
   console.log(`Logged in as ${DiscordClient.user.tag}!`);
   MyId = DiscordClient.user.id;
