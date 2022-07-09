@@ -1,5 +1,7 @@
 FROM node:current-buster-slim
 
+WORKDIR /deletebot
+
 COPY . .
 
 RUN npm install
