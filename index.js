@@ -21,7 +21,7 @@ const MinInterval = 10 * 60 * 1000; //(+RecurringSpread)
 
 const TwoWeekOffset = 14 * 24 * 60 * 60 * 1000;
 
-var ChannelConfigs = new Map();
+const ChannelConfigs = new Map();
 
 function ChannelName(channel) {
   return channel.guild != null ? channel.guild.name + ' #' + channel.name : '#' + channel.name;
@@ -79,6 +79,8 @@ async function Wipe(channelConfig, reWipe) {
   channelConfig.t = setTimeout(Wipe, interval + Math.random * RecurringSpread, channelConfig);
 }
 
+let MyId;
+
 async function DeleteOldAnnounce(channel) {
   try {
     let pins = await channel.messages.fetchPinned(false);
@@ -129,7 +131,6 @@ function ProcessGuild(guild) {
   }
 }
 
-var MyId;
 DiscordClient.on('ready', () => {
   Log(`Logged in as ${DiscordClient.user.tag}!`);
   MyId = DiscordClient.user.id;
