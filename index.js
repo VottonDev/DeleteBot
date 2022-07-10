@@ -133,6 +133,7 @@ function ProcessGuild(guild) {
 
 DiscordClient.on('ready', () => {
   Log(`Logged in as ${DiscordClient.user.tag}!`);
+  DiscordClient.user.setActivity('Deleting messages', { type: 'WATCHING' });
   MyId = DiscordClient.user.id;
   DiscordClient.on('error', console.error);
 
