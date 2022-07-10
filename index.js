@@ -129,7 +129,7 @@ function ProcessGuild(guild) {
 
 var MyId;
 DiscordClient.on('ready', () => {
-  console.log(`Logged in as ${DiscordClient.user.tag}!`);
+  Log(`Logged in as ${DiscordClient.user.tag}!`);
   MyId = DiscordClient.user.id;
   DiscordClient.on('error', console.error);
 
@@ -172,11 +172,11 @@ DiscordClient.on('channelUpdate', async (oldChannel, newChannel) => {
 DiscordClient.on('rateLimit', (rateLimitInfo) => {
   if (rateLimitInfo.global) {
     let time = rateLimitInfo.reset * 1000;
-    console.log(`Ratelimited, waiting until ${new Date(time).toLocaleString()}`);
+    Log(`Rate limit exceeded. Reset at ${new Date(time).toLocaleString()}`);
     setTimeout(() => {
-      console.log('Ratelimit cleared, resuming');
+      Log('Rate limit cleared, resuming.');
     }, time - Date.now());
   }
 });
 new (require('dblapi.js'))(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN).then(() => console.log(`Logged in as ${DiscordClient.user.tag}!`));
+DiscordClient.login(process.env.TOKEN).then(() => Log(`Logged in as ${DiscordClient.user.tag}!`)).catch(console.error);
