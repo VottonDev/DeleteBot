@@ -61,7 +61,7 @@ async function Wipe(channelConfig, reWipe) {
         }
       } else if (interval >= DayMs) {
         let messages = await channel.messages.fetch({ limit: 1, after: wipeSnowstamp }, false);
-        if (messages.size !== 0) interval = Math.max(messages.first().createdTimestamp - now, DayMs);
+        if (messages.size !== 0) interval = Math.max(messages.first().createdTimestamp + channelConfig.tll - now, DayMs);
         else interval = channelConfig.ttl + DayMs;
       }
     }
