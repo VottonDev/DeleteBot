@@ -66,9 +66,10 @@ async function Wipe(channelConfig, reWipe) {
       }
     }
   } catch (err) {
+    // If we lack acccess or permissions, we'll log it.
     if (err.code === 50013 || err.code === 50001) {
       DeleteChannel(channel.id);
-      console.error(err);
+      Log(`${ChannelName(channel)}: ${err.message}`);
       return;
     } else console.error(err);
   }
