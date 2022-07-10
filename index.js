@@ -70,6 +70,8 @@ async function Wipe(channelConfig, reWipe) {
     if (err.code === 50013 || err.code === 50001) {
       DeleteChannel(channel.id);
       Log(`${ChannelName(channel)}: ${err.message}`);
+      // Post to channel that the bot is lacking required permissions.
+      channel.send(`${ChannelName(channel)}: ${err.message}`);
       return;
     } else console.error(err);
   }
