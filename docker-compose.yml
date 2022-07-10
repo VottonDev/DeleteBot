@@ -9,8 +9,3 @@ services:
       - TOKEN=${TOKEN}
       - DBLTOKEN=${DBLTOKEN}
     network_mode: 'bridge'
-    healthcheck:
-      test: ["CMD", "curl", "--fail", "-s", "-o", "/dev/null", "https://discord.com/api/v8"]
-      interval: 60s
-      timeout: 5s
-      retries: 3
