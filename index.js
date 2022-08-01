@@ -1,16 +1,7 @@
 require('dotenv').config();
-const Discord = require('discord.js');
-const IntentFlag = Discord.Intents.FLAGS;
-const DiscordClient = new Discord.Client({
-  ws: {
-    intents: IntentFlag.GUILDS, //|
-    //IntentFlag.GUILD_MEMBERS |
-    //IntentFlag.GUILD_MESSAGES |
-    //IntentFlag.GUILD_MESSAGE_REACTIONS
-  },
-  messageCacheMaxSize: 0,
-  disableMentions: 'everyone',
-});
+const { Client, GatewayIntentBits } = require('discord.js');
+
+const DiscordClient = new Client({ intents: GatewayIntentBits.Guilds, messageCacheMaxSize: 0, disableMentions: 'everyone' });
 
 const DelayBetween = 60 * 1000;
 const DayMs = 24 * 60 * 60 * 1000;
