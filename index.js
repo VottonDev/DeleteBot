@@ -1,13 +1,8 @@
 require('dotenv').config();
-const Discord = require('discord.js');
-const IntentFlag = Discord.Intents.FLAGS;
-const DiscordClient = new Discord.Client({
-  ws: {
-    intents: IntentFlag.GUILDS, //|
-    //IntentFlag.GUILD_MEMBERS |
-    //IntentFlag.GUILD_MESSAGES |
-    //IntentFlag.GUILD_MESSAGE_REACTIONS
-  },
+const { Client, GatewayIntentBits } = require('discord.js');
+
+const DiscordClient = new Client({
+  intents: GatewayIntentBits.Guilds,
   messageCacheMaxSize: 0,
   disableMentions: 'everyone',
 });
@@ -39,14 +34,15 @@ async function Wipe(channelConfig, reWipe) {
     let wipeSnowstamp = (BigInt(now - 14200704e5 /*DISCORD_EPOCH*/ - channelConfig.ttl) << 22n).toString();
     let twoWeeksAgo = now - TwoWeekOffset;
     let messages = await channel.messages.fetch({ limit: 100, before: wipeSnowstamp }, false);
-    messages = messages.filter((message) => message.createdTimestamp > twoWeeksAgo); //because before and after are mutually exclusive in the query
+    messages = messages.filter((message) => message.createdTimestamp > twoWeeksAgo); // because before and after are mutually
+    // exclusive in the query
     let fetchSize = messages.size;
     messages = messages.filter((message) => !message.pinned);
     if (messages.size !== 0) {
       Log(`Deleting ${messages.size} messages in ${ChannelName(channel)}`);
       await channel.bulkDelete(messages);
 
-      if (interval > DayMs) channelConfig.int = interval = DayMs; //in case it was extended before
+      if (interval > DayMs) channelConfig.int = interval = DayMs; // in case it was extended before
 
       if (fetchSize === 100) {
         channelConfig.t = setTimeout(Wipe, DelayBetween, channelConfig, true);
@@ -182,6 +178,8 @@ DiscordClient.on('rateLimit', (rateLimitInfo) => {
     }, time - Date.now());
   }
 });
-const dbl = (require('dblapi.js'));
+const dbl = require('dblapi.js');
 new dbl(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN).then(() => Log(`Logged in as ${DiscordClient.user.tag}!`)).catch(console.error);
+DiscordClient.login(process.env.TOKEN)
+  .then(() => Log(`Logged in as ${DiscordClient.user.tag}!`))
+  .catch(console.error);
