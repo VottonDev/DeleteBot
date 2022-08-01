@@ -182,6 +182,6 @@ DiscordClient.on('rateLimit', (rateLimitInfo) => {
     }, time - Date.now());
   }
 });
-const dbl = (require('dblapi.js');
+const dbl = (require('dblapi.js'));
 new dbl(process.env.DBLTOKEN, DiscordClient);
 DiscordClient.login(process.env.TOKEN).then(() => Log(`Logged in as ${DiscordClient.user.tag}!`)).catch(console.error);
