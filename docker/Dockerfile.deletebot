@@ -6,7 +6,7 @@ COPY . .
 
 RUN apt update
 
-RUN apt install curl -y
+RUN apt install curl python3 build-essential -y
 
 RUN npm install
 
