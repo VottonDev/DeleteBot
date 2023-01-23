@@ -1,7 +1,6 @@
 require('dotenv').config();
 const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
-const path = require('node:path');
 
 const DiscordClient = new Client({
   intents: GatewayIntentBits.Guilds,
@@ -11,19 +10,34 @@ const DiscordClient = new Client({
 
 DiscordClient.commands = new Collection();
 
-const commandsPath = path.join(__dirname, 'commands');
-const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+const commands = [];
+// Grab all the command files from the commands directory you created earlier
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
 
+// Loop through the command files and add them to the commands collection
 for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
-  // Set a new item in the Collection with the key as the command name and the value as the exported module
-  if ('data' in command && 'execute' in command) {
-    DiscordClient.commands.set(command.data.name, command);
-  } else {
-    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
-  }
+	const command = require(`./commands/${file}`);
+	commands.push(command.data.toJSON());
 }
+
+// REST
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+(async () => {
+  try {
+    console.log('Started refreshing application (/) commands.');
+    
+    await rest.put(
+      Routes.applicationGuildCommands(process.env.CLIENTID),
+      { body
+      : commands },
+    );
+  
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
+})();
 
 const DelayBetween = 60 * 1000;
 const DayMs = 24 * 60 * 60 * 1000;
