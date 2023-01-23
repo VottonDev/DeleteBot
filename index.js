@@ -8,6 +8,10 @@ const DiscordClient = new Client({
   disableMentions: 'everyone',
 });
 
+DiscordClient.once(Events.ClientReady, c => {
+	console.log(`Ready! Logged in as ${c.user.tag}`);
+});
+
 DiscordClient.commands = new Collection();
 
 const commands = [];
@@ -230,6 +234,4 @@ DiscordClient.on(Events.InteractionCreate, async (interaction) => {
 
 const dbl = require('dblapi.js');
 new dbl(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN)
-  .then(() => Log(`Logged in as ${DiscordClient.user.tag}!`))
-  .catch(console.error);
+DiscordClient.login(process.env.TOKEN);
