@@ -5,7 +5,8 @@ module.exports = {
   data: new SlashCommandBuilder()
     .setName('add')
     .setDescription('Add a channel that you want to automatically delete messages on')
-    .addIntegerOption((option) => option.setName('days').setDescription('The number of days before messages are deleted').setRequired(false)),
+    .addIntegerOption((option) => option.setName('days').setDescription('The number of days before messages are deleted').setRequired(false))
+    .addChannelOption((option) => option.setName('channel').setDescription('The channel to delete messages on.').setRequired(true)),
   async execute(interaction) {
     // Check if the user has permission to manage channels
     if (!interaction.member.permissions.has('MANAGE_CHANNELS')) {
