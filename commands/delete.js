@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 // Add delete command
 module.exports = {
@@ -11,10 +11,28 @@ module.exports = {
     if (!interaction.member.permissions.has('MANAGE_CHANNELS')) {
       await interaction.reply('You do not have permission to manage channels.');
     } else {
-      // Remove channel topic
+      // Get channel
       let channel = interaction.options.getChannel('channel');
-      channel.setTopic(null);
-      await interaction.reply('Succesfully removed channel from list of channels that automatically delete messages.');
+      // Check if the bot can delete messages in the channel
+      if (!channel.permissionsFor(interaction.client.user).has('MANAGE_MESSAGES')) {
+        // Create an embed
+        const embed = new EmbedBuilder()
+          .setTitle('Lack of Permissions')
+          .setDescription(`You require MANAGE_MESSAGES permission to remove the bot from ${channel}.`)
+          .setColor(0xff0000);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
+      } else {
+        // Set channel topic
+        channel.setTopic(null);
+        // Create an embed
+        const embed = new EmbedBuilder()
+          .setTitle('Delete')
+          .setDescription(`Succesfully deleted ${channel} from the list of channels that automatically delete messages.`)
+          .setColor(0x00ff00);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
+      }
     }
   },
 };

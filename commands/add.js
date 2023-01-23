@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 // Add add command
 module.exports = {
@@ -12,16 +12,30 @@ module.exports = {
     if (!interaction.member.permissions.has('MANAGE_CHANNELS')) {
       await interaction.reply('You do not have permission to manage channels.');
     } else {
-      await interaction.reply('Successfully added channel to list of channels that automatically delete messages.');
-      // Add channel topic
+      // Get channel
       let channel = interaction.options.getChannel('channel');
-      // If days is higher than 12 then reply that max is 12
-      if (interaction.options.getInteger('days') > 12) {
-        await interaction.reply('The max number of days is 12.');
-        return;
+      // Check if the bot can delete messages in the channel
+      if (!channel.permissionsFor(interaction.client.user).has('MANAGE_MESSAGES')) {
+        // Create an embed
+        const embed = new EmbedBuilder().setTitle('Add').setDescription(`The bot misses permissions to delete messages in ${channel}.`).setColor(0xff0000);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
       } else {
-        channel.setTopic(`DeleteBot ${interaction.options.getInteger('days') || 7}`);
-        await interaction.reply('Successfully added channel to list of channels that automatically delete messages.');
+        // Get days
+        let days = interaction.options.getInteger('days');
+        // Check if days is null
+        if (days == null) {
+          days = 7;
+        }
+        // Set channel topic
+        channel.setTopic(`DeleteBot${days}`);
+        // Create an embed
+        const embed = new EmbedBuilder()
+          .setTitle('Add')
+          .setDescription(`Succesfully added ${channel} to the list of channels that automatically delete messages.`)
+          .setColor(0x00ff00);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
       }
     }
   },

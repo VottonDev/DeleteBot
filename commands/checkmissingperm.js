@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
 
 // Add command to check if the bot misses permissions on a channel
 module.exports = {
@@ -15,9 +15,15 @@ module.exports = {
       let channel = interaction.options.getChannel('channel');
       // Check if the bot can delete messages in the channel
       if (!channel.permissionsFor(interaction.client.user).has('MANAGE_MESSAGES')) {
-        await interaction.reply('The bot misses permissions to delete messages in this channel.');
+        // Create an embed
+        const embed = new EmbedBuilder().setTitle('Check Missing Permissions').setDescription(`The bot misses permissions to delete messages in ${channel}.`).setColor(0xff0000);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
       } else {
-        await interaction.reply('The bot has permissions to delete messages in this channel.');
+        // Create an embed
+        const embed = new EmbedBuilder().setTitle('Check Missing Permissions').setDescription(`The bot has permissions to delete messages in ${channel}.`).setColor(0x00ff00);
+        // Send the embed
+        await interaction.reply({ embeds: [embed] });
       }
     }
   },
