@@ -11,7 +11,6 @@ module.exports = {
     // Check if the user has permission to manage channels
     if (!interaction.member.permissions.has('MANAGE_CHANNELS')) {
       await interaction.reply('You do not have permission to manage channels.');
-      return;
     } else {
       await interaction.reply('Successfully added channel to list of channels that automatically delete messages.');
       // Add channel topic
