@@ -205,41 +205,6 @@ DiscordClient.on('ready', async () => {
   ]);
 });
 
-DiscordClient.on('interactionCreate', async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const { commandName, options } = interaction;
-
-  if (commandName === 'add') {
-    let days = options.getInteger('days', false);
-    if (days === null) days = 7;
-    days = Math.min(12, Math.max(days, 1));
-    let channelConfig = { ttl: days * DayMs, int: DayMs, channel: interaction.channel };
-    ChannelConfigs.set(interaction.channel.id, channelConfig);
-    channelConfig.t = setTimeout(Wipe, Math.random * InitialSpread, channelConfig, true);
-    Log(`Adding ${ChannelName(interaction.channel)} with a ${days} day wipe`);
-    await interaction.reply(`The messages will be deleted after ${days === 1 ? 'one day' : days + ' days'}`);
-    await DeleteOldAnnounce(interaction.channel);
-  } else if (commandName === 'remove') {
-    if (DeleteChannel(interaction.channel.id)) {
-      await interaction.reply('The messages will not be automatically deleted');
-      await DeleteOldAnnounce(interaction.channel);
-    } else {
-      await interaction.reply('This channel is not set up to automatically delete messages');
-    }
-  } else if (commandName === 'list') {
-    let channels = [];
-    for (let channelConfig of ChannelConfigs.values()) {
-      channels.push(`${ChannelName(channelConfig.channel)}: ${Math.round(channelConfig.ttl / DayMs)} days`);
-    }
-    if (channels.length === 0) {
-      await interaction.reply('There are no channels set up to automatically delete messages');
-    } else {
-      await interaction.reply('The following channels are set up to automatically delete messages:\n' + channels.join('\n'));
-    }
-  }
-});
-
 const dbl = require('dblapi.js');
 new dbl(process.env.DBLTOKEN, DiscordClient);
 DiscordClient.login(process.env.TOKEN)
