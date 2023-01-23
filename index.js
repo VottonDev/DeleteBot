@@ -1,11 +1,27 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, GatewayIntentBits } = require('discord.js');
 
 const DiscordClient = new Client({
   intents: GatewayIntentBits.Guilds,
   messageCacheMaxSize: 0,
   disableMentions: 'everyone',
 });
+
+DiscordClient.commands = new Collection();
+
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  // Set a new item in the Collection with the key as the command name and the value as the exported module
+  if ('data' in command && 'execute' in command) {
+    DiscordClient.commands.set(command.data.name, command);
+  } else {
+    console.log(`[WARNING] The command at ${filePath} is missing a required "data" or "execute" property.`);
+  }
+}
 
 const DelayBetween = 60 * 1000;
 const DayMs = 24 * 60 * 60 * 1000;
@@ -179,30 +195,21 @@ DiscordClient.on('rateLimit', (rateLimitInfo) => {
   }
 });
 
-// Add slash commands
-DiscordClient.on('ready', async () => {
-  await DiscordClient.application.commands.set([
-    {
-      name: 'add',
-      description: 'Add a channel that you want to automatically delete messages on',
-      options: [
-        {
-          name: 'days',
-          description: 'The number of days before messages are deleted',
-          type: 'INTEGER',
-          required: false,
-        },
-      ],
-    },
-    {
-      name: 'remove',
-      description: 'Remove a channel from the list of channels that automatically delete messages',
-    },
-    {
-      name: 'list',
-      description: 'List all channels that automatically delete messages',
-    },
-  ]);
+DiscordClient.on(Events.InteractionCreate, async (interaction) => {
+  if (!interaction.isCommand()) return;
+
+  const command = interaction.client.commands.get(interaction.commandName);
+  if (!command) {
+    console.error(`No command matching ${interaction.commandName} was found.`);
+    return;
+  }
+
+  try {
+    await command.execute(interaction);
+  } catch (error) {
+    console.error(error);
+    await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+  }
 });
 
 const dbl = require('dblapi.js');
