@@ -8,8 +8,8 @@ const DiscordClient = new Client({
   disableMentions: 'everyone',
 });
 
-DiscordClient.once(Events.ClientReady, c => {
-	console.log(`Ready! Logged in as ${c.user.tag}`);
+DiscordClient.once(Events.ClientReady, (c) => {
+  console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
 DiscordClient.commands = new Collection();
