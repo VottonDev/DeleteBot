@@ -12,12 +12,12 @@ DiscordClient.commands = new Collection();
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
 
 // Loop through the command files and add them to the commands collection
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
-	commands.push(command.data.toJSON());
+  const command = require(`./commands/${file}`);
+  commands.push(command.data.toJSON());
 }
 
 // REST
@@ -26,13 +26,9 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
 (async () => {
   try {
     console.log('Started refreshing application (/) commands.');
-    
-    await rest.put(
-      Routes.applicationGuildCommands(process.env.CLIENTID),
-      { body
-      : commands },
-    );
-  
+
+    await rest.put(Routes.applicationGuildCommands(process.env.CLIENTID), { body: commands });
+
     console.log('Successfully reloaded application (/) commands.');
   } catch (error) {
     console.error(error);
