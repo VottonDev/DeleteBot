@@ -27,7 +27,8 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
   try {
     console.log('Started refreshing application (/) commands.');
 
-    await rest.put(Routes.applicationGuildCommands(process.env.CLIENTID), { body: commands });
+    // Make commands global
+    await rest.put(Routes.applicationCommands(process.env.CLIENTID), { body: commands });
 
     console.log('Successfully reloaded application (/) commands.');
   } catch (error) {
