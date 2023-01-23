@@ -11,10 +11,10 @@ module.exports = {
     if (!interaction.member.permissions.has('MANAGE_CHANNELS')) {
       await interaction.reply('You do not have permission to manage channels.');
     } else {
-      await interaction.reply('Succesfully removed channel from list of channels that automatically delete messages.');
       // Remove channel topic
       let channel = interaction.options.getChannel('channel');
       channel.setTopic(null);
+      await interaction.reply('Succesfully removed channel from list of channels that automatically delete messages.');
     }
   },
 };

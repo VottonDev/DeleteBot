@@ -21,6 +21,7 @@ module.exports = {
         return;
       } else {
         channel.setTopic(`DeleteBot ${interaction.options.getInteger('days') || 7}`);
+        await interaction.reply('Successfully added channel to list of channels that automatically delete messages.');
       }
     }
   },
