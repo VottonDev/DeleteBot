@@ -1,6 +1,7 @@
 require('dotenv').config();
 const { Client, Collection, Events, REST, Routes, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
+const path = require('node:path');
 
 const DiscordClient = new Client({
   intents: GatewayIntentBits.Guilds,
@@ -12,6 +13,12 @@ DiscordClient.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const command = require(filePath);
+  DiscordClient.commands.set(command.data.name, command);
+}
+
 DiscordClient.commands = new Collection();
 
 const commands = [];
@@ -22,7 +29,6 @@ const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
   commands.push(command.data.toJSON());
-  DiscordClient.commands.set(command.data.name, command);
 }
 
 // REST
