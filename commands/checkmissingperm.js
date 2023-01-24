@@ -7,7 +7,7 @@ module.exports = {
     .setName('checkmissingperm')
     .setDescription('Check if the bot misses permissions on a channel')
     .addChannelOption((option) => option.setName('channel').setDescription('The channel to check permissions on.').setRequired(true))
-    .setDefaultMemberPermissions([PermissionFlagsBits.MANAGE_CHANNELS])
+    .setDefaultMemberPermissions([PermissionFlagsBits.ManageChannels])
     .setDMPermission(false),
   async execute(interaction) {
     // Get channel

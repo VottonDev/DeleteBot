@@ -8,7 +8,7 @@ module.exports = {
     .setDescription('Add a channel that you want to automatically delete messages on')
     .addChannelOption((option) => option.setName('channel').setDescription('The channel to delete messages on.').setRequired(true))
     .addIntegerOption((option) => option.setName('days').setDescription('The number of days before messages are deleted').setRequired(false))
-    .setDefaultMemberPermissions([PermissionFlagsBits.MANAGE_CHANNELS])
+    .setDefaultMemberPermissions([PermissionFlagsBits.ManageChannels])
     .setDMPermission(false),
   async execute(interaction) {
     // Get channel
