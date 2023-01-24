@@ -3,7 +3,7 @@ const wait = require('node:timers/promises').setTimeout;
 
 // Add ping command
 module.exports = {
-  data: new SlashCommandBuilder().setName('ping').setDescription('Replies with Pong!').setDMPermission(true),
+  data: new SlashCommandBuilder().setName('ping').setDescription('Returns the ping of the bot').setDMPermission(true),
   async execute(interaction) {
     // Get the time when the command was executed
     const startTime = Date.now();

@@ -1,11 +1,11 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
 
-// Add command to check if the bot misses permissions on a channel
+// Add command to check if the bot misses permissions to delete messages in a channel
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('checkmissingperm')
-    .setDescription('Check if the bot misses permissions on a channel')
+    .setDescription('Check if the bot misses permissions to delete messages in a channel')
     .addChannelOption((option) => option.setName('channel').setDescription('The channel to check permissions on.').setRequired(true))
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setDMPermission(false),

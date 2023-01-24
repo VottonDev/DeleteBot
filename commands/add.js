@@ -5,7 +5,7 @@ const wait = require('node:timers/promises').setTimeout;
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add')
-    .setDescription('Add a channel that you want to automatically delete messages on')
+    .setDescription('Add a channel that you want to automatically delete messages in')
     .addChannelOption((option) => option.setName('channel').setDescription('The channel to delete messages on.').setRequired(true))
     .addIntegerOption((option) => option.setName('days').setDescription('The number of days before messages are deleted').setRequired(false))
     .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
