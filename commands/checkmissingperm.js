@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 // Add command to check if the bot misses permissions on a channel
 module.exports = {

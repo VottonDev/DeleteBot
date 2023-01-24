@@ -2,6 +2,7 @@ require('dotenv').config();
 const { Client, Collection, Events, REST, Routes, GatewayIntentBits } = require('discord.js');
 const fs = require('node:fs');
 const path = require('node:path');
+const wait = require('node:timers/promises').setTimeout;
 
 const DiscordClient = new Client({
   intents: GatewayIntentBits.Guilds,
@@ -231,10 +232,9 @@ DiscordClient.on(Events.InteractionCreate, async (interaction) => {
     await command.execute(interaction);
   } catch (error) {
     console.error(error);
-    await interaction.reply({
-      content: 'There was an error while executing this command!',
-      ephemeral: true,
-    });
+    await interaction.deferReply({ ephemeral: true });
+    await wait(250);
+    await interaction.editReply('There was an error while executing this command!');
   }
 });
 

@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 // List how many servers the bot is in
 module.exports = {

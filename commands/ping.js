@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 // Add ping command
 module.exports = {
