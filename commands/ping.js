@@ -16,6 +16,6 @@ module.exports = {
     // Edit the message with the embed
     await interaction.deferReply();
     await wait(4000);
-    await interaction.editReply({ embeds: [embed] });
+    await interaction.editReply({ embeds: [embed], ephemeral: true });
   },
 };
