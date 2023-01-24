@@ -13,21 +13,18 @@ DiscordClient.once(Events.ClientReady, (c) => {
   console.log(`Ready! Logged in as ${c.user.tag}`);
 });
 
-for (const file of commandFiles) {
-  const filePath = path.join(commandsPath, file);
-  const command = require(filePath);
-  DiscordClient.commands.set(command.data.name, command);
-}
-
 DiscordClient.commands = new Collection();
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
 const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
 
-// Loop through the command files and add them to the commands collection
+// Loop through the command files and add them to the commands collection and discord.commands
 for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const fileCommands = require(filePath);
   const command = require(`./commands/${file}`);
+  DiscordClient.commands.set(fileCommands.data.name, fileCommands);
   commands.push(command.data.toJSON());
 }
 
