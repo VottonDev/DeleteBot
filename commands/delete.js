@@ -25,11 +25,11 @@ module.exports = {
       await interaction.editReply({ embeds: [embed] });
     } else {
       // Set channel topic
-      channel.setTopic(null);
+      await channel.setTopic(null);
       // Create an embed
       const embed = new EmbedBuilder()
         .setTitle('Delete')
-        .setDescription(`Succesfully deleted ${channel} from the list of channels that automatically delete messages.`)
+        .setDescription(`Successfully deleted ${channel} from the list of channels that automatically delete messages.`)
         .setColor(0x00ff00);
       // Send the embed
       await interaction.deferReply();

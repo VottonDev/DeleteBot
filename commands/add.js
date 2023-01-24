@@ -1,7 +1,7 @@
 const { SlashCommandBuilder, EmbedBuilder, PermissionFlagsBits } = require('discord.js');
 const wait = require('node:timers/promises').setTimeout;
 
-// Add add command
+// Add (add) command
 module.exports = {
   data: new SlashCommandBuilder()
     .setName('add')
@@ -29,11 +29,11 @@ module.exports = {
         days = 7;
       }
       // Set channel topic
-      channel.setTopic(`DeleteBot${days}`);
+      await channel.setTopic(`DeleteBot${days}`);
       // Create an embed
       const embed = new EmbedBuilder()
         .setTitle('Add')
-        .setDescription(`Succesfully added ${channel} to the list of channels that automatically delete messages.`)
+        .setDescription(`Successfully added ${channel} to the list of channels that automatically delete messages.`)
         .setColor(0x00ff00);
       // Send the embed
       await interaction.deferReply();
