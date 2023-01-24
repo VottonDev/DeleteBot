@@ -7,7 +7,7 @@ module.exports = {
     .setName('delete')
     .setDescription('Delete a channel from the list of channels that automatically delete messages')
     .addChannelOption((option) => option.setName('channel').setDescription('The channel to delete messages on.').setRequired(true))
-    .setDefaultMemberPermissions([PermissionFlagsBits.ManageChannels])
+    .setDefaultMemberPermissions(PermissionFlagsBits.ManageChannels)
     .setDMPermission(false),
   async execute(interaction) {
     // Get channel
