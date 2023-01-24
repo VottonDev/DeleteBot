@@ -10,9 +10,18 @@ const DiscordClient = new Client({
   disableMentions: 'everyone',
 });
 
-DiscordClient.once(Events.ClientReady, (c) => {
-  console.log(`Ready! Logged in as ${c.user.tag}`);
-});
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    DiscordClient.once(event.name, (...args) => event.execute(...args));
+  } else {
+    DiscordClient.on(event.name, (...args) => event.execute(...args));
+  }
+}
 
 DiscordClient.commands = new Collection();
 
@@ -216,25 +225,6 @@ DiscordClient.on('rateLimit', (rateLimitInfo) => {
     setTimeout(() => {
       Log('Rate limit cleared, resuming.');
     }, time - Date.now());
-  }
-});
-
-DiscordClient.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isCommand()) return;
-
-  const command = interaction.client.commands.get(interaction.commandName);
-  if (!command) {
-    console.error(`No command matching ${interaction.commandName} was found.`);
-    return;
-  }
-
-  try {
-    await command.execute(interaction);
-  } catch (error) {
-    console.error(error);
-    await interaction.deferReply({ ephemeral: true });
-    await wait(250);
-    await interaction.editReply('There was an error while executing this command!');
   }
 });
 
