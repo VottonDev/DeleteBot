@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 // Add privacy command
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
       .setColor(0x00ff00);
     // Edit the message with the embed
     await interaction.deferReply();
+    await wait(4000);
     await interaction.editReply({ embeds: [embed], ephemeral: true });
   },
 };

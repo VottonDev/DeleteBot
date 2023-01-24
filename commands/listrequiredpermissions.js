@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, EmbedBuilder } = require('discord.js');
+const wait = require('node:timers/promises').setTimeout;
 
 // Add a command to list the required permissions to make the bot function
 module.exports = {
@@ -11,6 +12,7 @@ module.exports = {
       .setColor(0x00ff00);
     // Send the embed
     await interaction.deferReply();
+    await wait(4000);
     await interaction.editReply({ embeds: [embed], ephemeral: true });
   },
 };
