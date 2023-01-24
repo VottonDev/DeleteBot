@@ -14,4 +14,5 @@ Create a .env file with following variables:
 ```
 TOKEN="DISCORDTOKENHERE"
 DBLTOKEN="TOPGGTOKENHERE"
+CLIENTID="DISCORDCLIENTIDHERE"
 ```

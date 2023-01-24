@@ -1,7 +1,7 @@
 {
-  "name": "DeleteBot",
-  "version": "1.0.0",
-  "description": "",
+  "name": "deletebot",
+  "version": "2.0.0",
+  "description": "Discord bot that deletes messages in specific channels",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

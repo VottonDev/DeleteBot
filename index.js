@@ -1,11 +1,60 @@
 require('dotenv').config();
-const { Client, GatewayIntentBits } = require('discord.js');
+const { Client, Collection, Events, REST, Routes, GatewayIntentBits } = require('discord.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const wait = require('node:timers/promises').setTimeout;
 
 const DiscordClient = new Client({
   intents: GatewayIntentBits.Guilds,
   messageCacheMaxSize: 0,
   disableMentions: 'everyone',
 });
+
+DiscordClient.commands = new Collection();
+
+const commands = [];
+// Grab all the command files from the commands directory you created earlier
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter((file) => file.endsWith('.js'));
+
+// Loop through the command files and add them to the commands collection and
+// discord.commands
+for (const file of commandFiles) {
+  const filePath = path.join(commandsPath, file);
+  const fileCommands = require(filePath);
+  const command = require(`./commands/${file}`);
+  DiscordClient.commands.set(fileCommands.data.name, fileCommands);
+  commands.push(command.data.toJSON());
+}
+
+// REST
+const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
+
+(async () => {
+  try {
+    console.log('Started refreshing application (/) commands.');
+
+    // Make commands global
+    await rest.put(Routes.applicationCommands(process.env.CLIENTID), { body: commands });
+
+    console.log('Successfully reloaded application (/) commands.');
+  } catch (error) {
+    console.error(error);
+  }
+})();
+
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    DiscordClient.once(event.name, (...args) => event.execute(...args));
+  } else {
+    DiscordClient.on(event.name, (...args) => event.execute(...args));
+  }
+}
 
 const DelayBetween = 60 * 1000;
 const DayMs = 24 * 60 * 60 * 1000;
@@ -178,8 +227,7 @@ DiscordClient.on('rateLimit', (rateLimitInfo) => {
     }, time - Date.now());
   }
 });
+
 const dbl = require('dblapi.js');
 new dbl(process.env.DBLTOKEN, DiscordClient);
-DiscordClient.login(process.env.TOKEN)
-  .then(() => Log(`Logged in as ${DiscordClient.user.tag}!`))
-  .catch(console.error);
+DiscordClient.login(process.env.TOKEN);
