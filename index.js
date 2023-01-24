@@ -10,19 +10,6 @@ const DiscordClient = new Client({
   disableMentions: 'everyone',
 });
 
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
-
-for (const file of eventFiles) {
-  const filePath = path.join(eventsPath, file);
-  const event = require(filePath);
-  if (event.once) {
-    DiscordClient.once(event.name, (...args) => event.execute(...args));
-  } else {
-    DiscordClient.on(event.name, (...args) => event.execute(...args));
-  }
-}
-
 DiscordClient.commands = new Collection();
 
 const commands = [];
@@ -55,6 +42,19 @@ const rest = new REST({ version: '10' }).setToken(process.env.TOKEN);
     console.error(error);
   }
 })();
+
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter((file) => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+  const filePath = path.join(eventsPath, file);
+  const event = require(filePath);
+  if (event.once) {
+    DiscordClient.once(event.name, (...args) => event.execute(...args));
+  } else {
+    DiscordClient.on(event.name, (...args) => event.execute(...args));
+  }
+}
 
 const DelayBetween = 60 * 1000;
 const DayMs = 24 * 60 * 60 * 1000;
