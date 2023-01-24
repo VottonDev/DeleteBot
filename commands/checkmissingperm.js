@@ -13,7 +13,7 @@ module.exports = {
     // Get channel
     let channel = interaction.options.getChannel('channel');
     // Check if the bot can delete messages in the channel
-    if (!channel.permissionsFor(interaction.client.user).has('MANAGE_MESSAGES')) {
+    if (!channel.permissionsFor(interaction.client.user).has(PermissionFlagsBits.ManageMessages)) {
       // Create an embed
       const embed = new EmbedBuilder().setTitle('Check Missing Permissions').setDescription(`The bot misses permissions to delete messages in ${channel}.`).setColor(0xff0000);
       // Send the embed
