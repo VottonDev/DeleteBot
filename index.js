@@ -17,7 +17,8 @@ DiscordClient.commands = new Collection();
 
 const commands = [];
 // Grab all the command files from the commands directory you created earlier
-const commandFiles = fs.readdirSync('./commands').filter((file) => file.endsWith('.js'));
+const commandsPath = path.join(__dirname, 'commands');
+const commandFiles = fs.readdirSync(commandsPath).filter(file => file.endsWith('.js'));
 
 // Loop through the command files and add them to the commands collection and discord.commands
 for (const file of commandFiles) {
