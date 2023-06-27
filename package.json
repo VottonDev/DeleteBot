@@ -15,7 +15,7 @@
     "discord.js": "^14.1.2",
     "dotenv": "^16.0.1",
     "erlpack": "github:discord/erlpack",
-    "utf-8-validate": "^5.0.9",
+    "utf-8-validate": "^6.0.3",
     "zlib-sync": "^0.1.7"
   },
   "devDependencies": {
