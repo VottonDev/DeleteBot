@@ -10,7 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bufferutil": "^4.0.6",
+    "bufferutil": "^4.0.7",
     "dblapi.js": "^2.4.1",
     "discord.js": "^14.1.2",
     "dotenv": "^16.0.1",
